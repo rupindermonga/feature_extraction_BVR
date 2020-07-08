@@ -4,7 +4,9 @@ import glob
 import json
 import os
 import csv
+import time
 
+start_time = time.time()
 nlp = spacy.load('en_core_web_sm')
 
 # in_slug = sys.argv[1]
@@ -16,18 +18,25 @@ json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.ends
 # for f in glob.iglob('/media/rupinder/C49A5A1B9A5A0A76/Users/Rupinder/Desktop/BVR/Warning_code/feature_analysis-master/electric-kettles*.json'):
 final_dict = {}
 new_count = 0
-for filename in json_files:
-    count = 0    
+count = 0
+for filename in json_files:        
     with open(os.path.join(path_to_json, filename)) as f:
         data = json.load(f)
         try:
-            for r in data['reviews']:
+            if len(data['reviews']) < 50:
+                break
+            else:
                 count += 1
-                if count == 5:
-                    break   
-                text = r.get('reviewText','').strip()
-                if text != '':
-                    texts.append(text)
+                if count <= 5:
+                    for r in data['reviews']:
+                        # count += 1
+                        # if count == 5:
+                        #     break   
+                        text = r.get('reviewText','').strip()
+                        if text != '':
+                            texts.append(text)
+                else:
+                    break
         except:
             pass
     docs = nlp.pipe(texts)
@@ -43,6 +52,7 @@ for filename in json_files:
     new_count += 1
     print(filename)
     print(new_count)
+    print(time.time()- start_time)
 # docs = nlp.pipe(texts)
 
 # freq = {}
@@ -70,5 +80,5 @@ for k, v in final_dict.items():
 # for s in sort:
 #     out.writerow([s,freq[s]])
     
-        
+print(time.time()-start_time)
     
