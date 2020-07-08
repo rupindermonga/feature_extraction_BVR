@@ -66,7 +66,7 @@ for filename in json_files:
 
 # out = csv.writer(open('/media/rupinder/C49A5A1B9A5A0A76/Users/Rupinder/Desktop/BVR/Warning_code/feature_analysis-master/electric-kettles/ek.csv'.format(in_slug),'w'))
 out = csv.writer(open('/media/rupinder/C49A5A1B9A5A0A76/Users/Rupinder/Desktop/BVR/feature_analysis-master/electric-kettles/ek1.csv','w'))
-
+out2 = csv.writer(open('/media/rupinder/C49A5A1B9A5A0A76/Users/Rupinder/Desktop/BVR/feature_analysis-master/electric-kettles/ek2.csv','w'))
 
 # with open(os.path.join(path_to_json, 'ek1.json'), 'w') as outfile:
 #     json.dump(final_dict, outfile)
@@ -76,9 +76,18 @@ for k, v in final_dict.items():
     sort = sorted(v, key=lambda k1:v[k1], reverse=True)
     for s in sort:
         out.writerow([s,k,v[s]])
+
+for k, v in final_dict.items():
+    sort = sorted(v, key=lambda k1:v[k1], reverse=True)
+    for s in sort:
+        if v[s] > 100:
+            out2.writerow([s,k,v[s]])
+
+
 # sort = sorted(freq, key=lambda k:freq[k], reverse=True)
 # for s in sort:
 #     out.writerow([s,freq[s]])
+
     
 print(time.time()-start_time)
     
